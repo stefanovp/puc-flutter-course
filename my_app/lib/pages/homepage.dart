@@ -63,7 +63,12 @@ class _HomePageState extends State<HomePage> {
                                       ],
                                     )),
                                 IconButton(
-                                  onPressed: () => print(4),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/details',
+                                        arguments: <String, String>{
+                                          'title': index.toString()
+                                        });
+                                  },
                                   icon: const Icon(
                                     Icons.navigate_next,
                                     size: 36,
