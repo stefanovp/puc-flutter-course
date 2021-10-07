@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/models/location.dart';
+import 'package:my_app/pages/parkinglot_details.dart';
 import 'package:my_app/services/api_manager.dart';
 
 class HomePage extends StatefulWidget {
+  static String routeName = '/home';
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +17,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
       appBar: AppBar(
         title: const Center(
           child: Text('Estacionamento Digital'),
@@ -64,10 +65,10 @@ class _HomePageState extends State<HomePage> {
                                     )),
                                 IconButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/details',
-                                        arguments: <String, String>{
-                                          'title': index.toString()
-                                        });
+                                    Navigator.pushNamed(
+                                        context, DetailsPage.routeName,
+                                        arguments:
+                                            DetailsPageArguments(parking));
                                   },
                                   icon: const Icon(
                                     Icons.navigate_next,

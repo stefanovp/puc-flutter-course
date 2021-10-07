@@ -23,6 +23,7 @@ class API_Manager {
       throw Exception('Faield to get parking lot data');
     }
 
+    await Future.delayed(Duration(seconds: 5));
     return locations;
   }
 }

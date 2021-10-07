@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/homepage.dart';
-import 'package:my_app/pages/parkinglot_details.dart';
+import 'package:my_app/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,12 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Estacionamento digital',
-        theme: ThemeData(primarySwatch: Colors.purple),
+        theme: ThemeData(
+            primarySwatch: Colors.purple, backgroundColor: Color(0xFFF5F6F9)),
         home: const HomePage(),
-        routes: <String, WidgetBuilder>{
-          '/details': (context) => DetailsPage(
-                title: 'Missing title',
-              )
-        });
+        routes: routes);
   }
 }
