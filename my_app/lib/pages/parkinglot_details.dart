@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/models/location.dart';
+import 'package:my_app/models/parking.dart';
 import 'package:my_app/pages/ticket.dart';
 
 class DetailsPageArguments {
@@ -44,7 +44,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       child: Row(
                         children: [
                           Text(
-                              'Número de vagas totais: ${arguments.parking.long}',
+                              'Número de vagas totais: ${arguments.parking.total}',
                               style: Theme.of(context).textTheme.bodyText1),
                         ],
                       ),
@@ -54,7 +54,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       child: Row(
                         children: [
                           Text(
-                              'Número de vagas disponíveis:  ${arguments.parking.lat}',
+                              'Número de vagas disponíveis:  ${arguments.parking.available}',
                               style: Theme.of(context).textTheme.bodyText1),
                         ],
                       ),

@@ -2,28 +2,27 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:my_app/models/location.dart';
+import 'package:my_app/models/parking.dart';
 
 class API_Manager {
-  Future<Location?> getParkingLots() async {
+  Future<List<Parking>> getParkingLots() async {
     var client = http.Client();
-    Location? locations;
 
     try {
-      String url = 'https://countriesnow.space/api/v0.1/countries/positions';
+      String url = 'http://10.0.2.2:5004/api/Parking';
       var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {
         var jsonString = response.body;
         var jsonMap = json.decode(jsonString);
 
-        locations = Location.fromJson(jsonMap);
+        await Future.delayed(Duration(seconds: 5));
+        return parkingFromJson(jsonString);
+      } else {
+        throw Exception('Test to get parking lot data');
       }
     } catch (error) {
       print(error);
-      throw Exception('Faield to get parking lot data');
+      throw Exception('Failed to request parking lot data');
     }
-
-    await Future.delayed(Duration(seconds: 5));
-    return locations;
   }
 }

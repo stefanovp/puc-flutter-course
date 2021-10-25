@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/models/location.dart';
+import 'package:my_app/models/parking.dart';
 import 'package:my_app/pages/parkinglot_details.dart';
 import 'package:my_app/services/api_manager.dart';
 
@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Future<Location?> _location = API_Manager().getParkingLots();
+  final Future<List<Parking>> _location = API_Manager().getParkingLots();
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +23,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Container(
-        child: FutureBuilder<Location?>(
+        child: FutureBuilder<List<Parking>>(
           future: _location,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
-                itemCount: snapshot.data!.data.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  Parking parking = snapshot.data!.data[index];
+                  Parking parking = snapshot.data![index];
                   return Container(
                       height: 100,
                       margin: const EdgeInsets.all(8),
@@ -58,12 +58,13 @@ class _HomePageState extends State<HomePage> {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         Text(
-                                            'Vagas livres: ${parking.lat.toString()}'),
+                                            'Vagas livres: ${parking.available.toString()}'),
                                         Text(
-                                            'Total de vagas: ${parking.long.toString()}')
+                                            'Total de vagas: ${parking.total.toString()}')
                                       ],
                                     )),
                                 IconButton(
+                                  color: Colors.purple,
                                   onPressed: () {
                                     Navigator.pushNamed(
                                         context, DetailsPage.routeName,

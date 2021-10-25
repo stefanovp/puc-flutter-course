@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/models/location.dart';
+import 'package:my_app/models/parking.dart';
 
 class TicketPageArguments {
   final String parkingName;
