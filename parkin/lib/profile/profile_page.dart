@@ -27,6 +27,30 @@ class ProfilePage extends StatelessWidget {
                 return Text('UserID: $userId');
               },
             ),
+            Builder(
+              builder: (context) {
+                final userName = context.select(
+                  (AuthenticationBloc bloc) => bloc.state.user.name,
+                );
+                return Text('Name: $userName');
+              },
+            ),
+            Builder(
+              builder: (context) {
+                final userAge = context.select(
+                  (AuthenticationBloc bloc) => bloc.state.user.age,
+                );
+                return Text('Age: $userAge');
+              },
+            ),
+            Builder(
+              builder: (context) {
+                final userCredits = context.select(
+                  (AuthenticationBloc bloc) => bloc.state.user.credits,
+                );
+                return Text('Credits: $userCredits');
+              },
+            ),
             ElevatedButton(
               child: const Text('Logout'),
               onPressed: () {

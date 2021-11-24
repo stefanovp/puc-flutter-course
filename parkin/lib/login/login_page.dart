@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(centerTitle: true, title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: BlocProvider(
@@ -22,7 +22,22 @@ class LoginPage extends StatelessWidget {
                   RepositoryProvider.of<AuthenticationRepository>(context),
             );
           },
-          child: LoginForm(),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(16.0, 64.0, 16.0, 80.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
+                  child: const Icon(
+                    Icons.vpn_lock_rounded,
+                    size: 80.0,
+                  ),
+                ),
+                LoginForm(),
+              ],
+            ),
+          ),
         ),
       ),
     );
