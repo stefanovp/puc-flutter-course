@@ -37,6 +37,10 @@ dependencies:
   http: ^0.13.4
   flutter_polyline_points: ^0.2.6
   google_maps_flutter: ^2.0.2
+  flutter_bloc: ^8.0.0
+  formz: ^0.4.0
+  equatable: any
+  flutter_login: any
 
 dev_dependencies:
   flutter_test:

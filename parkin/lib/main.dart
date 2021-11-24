@@ -1,75 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parkin/authentication/bloc/authentication_bloc.dart';
+import 'package:parkin/authentication/bloc/authentication_state.dart';
+import 'package:parkin/authentication_repository.dart';
+import 'package:parkin/login/login_page.dart';
+import 'package:parkin/splash_screen.dart';
+import 'package:parkin/user_repository.dart';
+
+import 'map_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp(
+    authenticationRepository: AuthenticationRepository(),
+    userRepository: UserRepository(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp(
+      {Key? key,
+      required this.authenticationRepository,
+      required this.userRepository})
+      : super(key: key);
+
+  final AuthenticationRepository authenticationRepository;
+  final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Parkin Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+    return RepositoryProvider.value(
+      value: authenticationRepository,
+      child: BlocProvider(
+        create: (_) => AuthenticationBloc(
+          authenticationRepository: authenticationRepository,
+          userRepository: userRepository,
+        ),
+        child: AppView(),
       ),
-      home: const MapScreen(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
-
+class AppView extends StatefulWidget {
   @override
-  _MapScreenState createState() => _MapScreenState();
+  _AppViewState createState() => _AppViewState();
 }
 
-class _MapScreenState extends State<MapScreen> {
-  static const _initialCameraPosition =
-      CameraPosition(target: LatLng(-22.9797, -43.2334), zoom: 15);
+class _AppViewState extends State<AppView> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
-  late GoogleMapController _googleMapController;
-
-  @override
-  void dispose() {
-    _googleMapController.dispose();
-    super.dispose();
-  }
+  NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Parkin'),
-          leading: IconButton(
-            icon: Icon(Icons.person),
-            onPressed: () => _googleMapController.animateCamera(
-                CameraUpdate.newCameraPosition(_initialCameraPosition)),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () => _googleMapController.animateCamera(
-                    CameraUpdate.newCameraPosition(_initialCameraPosition)),
-                icon: Icon(Icons.attach_money)),
-          ],
-        ),
-        body: GoogleMap(
-          myLocationButtonEnabled: false,
-          zoomControlsEnabled: false,
-          initialCameraPosition: _initialCameraPosition,
-          onMapCreated: (controller) => _googleMapController = controller,
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
-          onPressed: () => _googleMapController.animateCamera(
-              CameraUpdate.newCameraPosition(_initialCameraPosition)),
-          child: const Icon(Icons.center_focus_strong),
-        ));
+    return MaterialApp(
+      navigatorKey: _navigatorKey,
+      builder: (context, child) {
+        return BlocListener<AuthenticationBloc, AuthenticationState>(
+          listener: (context, state) {
+            switch (state.status) {
+              case AuthenticationStatus.authenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  MapScreen.route(),
+                  (route) => false,
+                );
+                break;
+              case AuthenticationStatus.unauthenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  LoginPage.route(),
+                  (route) => false,
+                );
+                break;
+              default:
+                break;
+            }
+          },
+          child: child,
+        );
+      },
+      onGenerateRoute: (_) => SplashPage.route(),
+    );
   }
 }
