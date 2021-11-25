@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:parkin/database/database.dart';
+import 'package:parkin/models/models.dart';
 import 'package:parkin/models/parking.dart';
 
 class TicketPageArguments {
@@ -43,8 +45,8 @@ class _TicketPageState extends State<TicketPage> {
                   children: [
                     Text('Seu novo ticket',
                         style: Theme.of(context).textTheme.headline4),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: FlutterLogo(
                         size: 100,
                       ),
@@ -54,7 +56,7 @@ class _TicketPageState extends State<TicketPage> {
                       padding: EdgeInsets.only(top: 24),
                       child: Column(
                         children: [
-                          Text('Estacionamento: Parque dos patins'),
+                          Text('Estacionamento: ${widget.parking.name}'),
                           Text('Veículo: ${widget.vehiclePlate}}'),
                           Text('Permanencia máxima: 2 Horas')
                         ],
@@ -66,11 +68,20 @@ class _TicketPageState extends State<TicketPage> {
             ),
           ),
           ElevatedButton(
-              onPressed: () =>
-                  {Navigator.popUntil(context, (route) => route.isFirst)},
+              onPressed: () => {
+                    addTicket(),
+                    Navigator.popUntil(context, (route) => route.isFirst)
+                  },
               child: Text('Pague para poder estacionar'))
         ],
       ),
     );
+  }
+
+  Future addTicket() async {
+    final note = Ticket(
+        parkingName: widget.parking.name, vehiclePlate: widget.vehiclePlate);
+
+    await TicketsDatabase.instance.create(note);
   }
 }

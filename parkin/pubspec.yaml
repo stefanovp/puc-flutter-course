@@ -41,6 +41,9 @@ dependencies:
   formz: ^0.4.0
   equatable: any
   flutter_login: any
+  sqflite: any
+  path_provider: any
+  
 
 dev_dependencies:
   flutter_test:

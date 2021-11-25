@@ -90,10 +90,10 @@ class _DetailsPageState extends State<DetailsPage> {
                           var route = MaterialPageRoute(
                               builder: (BuildContext context) => TicketPage(
                                     parking: Parking(
-                                        id: 2,
-                                        name: 'Cobal do leblon',
-                                        available: 80,
-                                        total: 130,
+                                        id: widget.parking.id,
+                                        name: widget.parking.name,
+                                        available: widget.parking.available,
+                                        total: widget.parking.total,
                                         outline: []),
                                     vehiclePlate: val,
                                   ));

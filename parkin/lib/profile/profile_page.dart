@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkin/authentication/bloc/authentication_bloc.dart';
 import 'package:parkin/authentication/bloc/authentication_event.dart';
+import 'package:parkin/ticket/tickets_page.dart';
 
 class ProfilePage extends StatelessWidget {
   static Route route() {
@@ -49,6 +50,14 @@ class ProfilePage extends StatelessWidget {
                   (AuthenticationBloc bloc) => bloc.state.user.credits,
                 );
                 return Text('Credits: $userCredits');
+              },
+            ),
+            ElevatedButton(
+              child: const Text('My Tickets'),
+              onPressed: () {
+                var route = MaterialPageRoute(
+                    builder: (BuildContext context) => TicketsPage());
+                Navigator.of(context).push((route));
               },
             ),
             ElevatedButton(
