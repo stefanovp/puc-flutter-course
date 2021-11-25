@@ -48,6 +48,20 @@ class _MapScreenState extends State<MapScreen> {
           zoomControlsEnabled: false,
           initialCameraPosition: _initialCameraPosition,
           onMapCreated: (controller) => _googleMapController = controller,
+          markers: {
+            const Marker(
+                markerId: MarkerId('Parque dos patins'),
+                infoWindow: InfoWindow(title: "42"),
+                position: LatLng(-22.97186, -43.21660)),
+            const Marker(
+                markerId: MarkerId('Cobal do leblon'),
+                infoWindow: InfoWindow(title: "42"),
+                position: LatLng(-22.97975, -43.22122)),
+            const Marker(
+                markerId: MarkerId('Baixo Gávea'),
+                infoWindow: InfoWindow(title: "42"),
+                position: LatLng(-22.97363, -43.22712))
+          },
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
